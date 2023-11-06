@@ -4,7 +4,7 @@ function App() {
   const [inquiry, setInquiry] = useState({});
 
   const fetchInquiry = () => {
-    fetch('https://inquirybackend.onrender.com/inquiries/')
+    fetch('http://localhost:8080/inquiries/1')
       .then(response => {
         if (response.ok)
           return response.json();
@@ -22,6 +22,7 @@ function App() {
   return (
     <>
       <h1>{inquiry.name}</h1>
+      <p>{inquiry.description}</p>
     </>
   )
 }
