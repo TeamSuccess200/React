@@ -6,6 +6,7 @@ function App() {
     description: "",
     questions: [],
   });
+  
 
   const fetchInquiry = () => {
     fetch('http://localhost:8080/inquiries/1')
@@ -25,20 +26,23 @@ function App() {
 
   return (
     <>
-      <h1>{inquiry.name}</h1>
-      <p>{inquiry.description}</p>
       <div>
-        <h2>Inquiry</h2>
+        <h2>{inquiry.name}</h2>
+        <h3>{inquiry.description}</h3>
+        <form>
         <table>
           <tbody>
-            <tr><th>Question</th></tr>
+            <tr><th>Questions</th></tr>
             {inquiry.questions.map((question) => 
               <tr key={question.questionid}>
                 <td>{question.questiontext}</td>
+                <td><input type = "text" value={question.answertext} /></td>
               </tr> 
               )}
           </tbody>
-        </table>  
+        </table>
+        <button type="submit" value="submit"> Submit </button>
+        </form>  
       </div>
     </>
   )
