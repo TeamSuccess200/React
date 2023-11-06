@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [inquiry, setInquiry] = useState({});
+  const [inquiry, setInquiry] = useState({
+    name: "",
+    description: "",
+    questions: [],
+  });
 
   const fetchInquiry = () => {
     fetch('http://localhost:8080/inquiries/1')
@@ -23,6 +27,19 @@ function App() {
     <>
       <h1>{inquiry.name}</h1>
       <p>{inquiry.description}</p>
+      <div>
+        <h2>Inquiry</h2>
+        <table>
+          <tbody>
+            <tr><th>Question</th></tr>
+            {inquiry.questions.map((question) => 
+              <tr key={question.questionid}>
+                <td>{question.questiontext}</td>
+              </tr> 
+              )}
+          </tbody>
+        </table>  
+      </div>
     </>
   )
 }
