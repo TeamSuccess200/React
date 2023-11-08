@@ -46,12 +46,29 @@ function App() {
     setAnswer(newAnswers);
   }
 
+  const saveAnswer = () => {
+    fetch('http://localhost:8080/api/answers', {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(answer)
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error("Error when adding an answer: " + response.statusText);
+      console.log("testi")
+      fetchInquiry();
+    })
+    .catch(err => console.error(err))
+  }
+
   return (
     <>
       <div>
         <h2>{inquiry.name}</h2>
         <h3>{inquiry.description}</h3>
-        <form>
+        <form onSubmit={saveAnswer}>
           <table>
             <tbody>
               <tr><th>Questions</th></tr>
@@ -63,7 +80,7 @@ function App() {
               )}
             </tbody>
           </table>
-          <button type="submit" value="submit"> Submit </button>
+          <input type="submit" value="submit" label="Submit" />
         </form>
       </div>
     </>
