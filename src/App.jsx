@@ -9,13 +9,13 @@ function App() {
   });
 
 
-  const [answer, setAnswer] = useState([
+  const [answer, setAnswer] = useState([]
     // answer on taulukko olioita joiden tämänhetkinen ainoa attribuutti on answertext
     // HUOM, riittää että answertext on määritely fetchInquiry metodissa- tähän riittää siis pelkän tyhjän taulukon luonti
     /*     {
           answertext: ''
         } */
-  ]);
+  );
 
   const fetchInquiry = () => {
     fetch('http://localhost:8080/inquiries/1')
@@ -42,7 +42,7 @@ function App() {
     const newAnswers = [...answer];
 
     //Muuttaa tietyllä indeksipaikalla olevan vastausolion arvoa, e.target.name nappaa kentän nimen ja e.target.value kenttään käyttäjän syöttämän arvon
-    newAnswers[index] = { ...newAnswers[index], [e.target.name]: e.target.value };
+    newAnswers[index] = { ...newAnswers[index], answertext: e.target.value };
     setAnswer(newAnswers);
   }
 
@@ -55,13 +55,13 @@ function App() {
       body: JSON.stringify(answer)
     })
     .then(response => {
-      if (!response.ok)
+      if (!response.ok) {
         throw new Error("Error when adding an answer: " + response.statusText);
-      console.log("testi")
-      fetchInquiry();
+      }
+      console.log("Answer submitted successfully");
     })
-    .catch(err => console.error(err))
-  }
+    .catch(err => console.error(err));
+  };
 
   return (
     <>
@@ -80,7 +80,7 @@ function App() {
               )}
             </tbody>
           </table>
-          <input type="submit" value="submit" label="Submit" />
+          <input type="submit" value="Submit" />
         </form>
       </div>
     </>
