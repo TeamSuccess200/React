@@ -8,6 +8,7 @@ function App() {
   });
 
   const [answers, setAnswers] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const fetchInquiry = () => {
     fetch('http://localhost:8080/inquiries/1')
@@ -54,6 +55,8 @@ function App() {
           throw new Error("Error when adding an answer: " + response.statusText);
         }
         console.log("Answer submitted successfully");
+        setAnswers(answers.map(answer => ({ answertext: "", question: answer.question })));
+        setIsSubmitted(true);
       })
       .catch(err => console.error(err));
   };
@@ -77,6 +80,7 @@ function App() {
           </table>
           <input type="submit" value="Submit" />
         </form>
+        {isSubmitted && <p>Answers submitted successfully!</p>}
       </div>
     </>
   )
