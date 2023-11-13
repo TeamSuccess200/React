@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 
 function App() {
-
   const [inquiry, setInquiry] = useState({
     name: "",
     description: "",
     questions: [],
   });
 
-
-  const [answers, setAnswers] = useState([]
-    // answer on taulukko olioita joiden tämänhetkinen ainoa attribuutti on answertext
-    // HUOM, riittää että answertext on määritely fetchInquiry metodissa- tähän riittää siis pelkän tyhjän taulukon luonti
-    /*     {
-          answertext: ''
-        } */
-  );
+  const [answers, setAnswers] = useState([]);
 
   const fetchInquiry = () => {
     fetch('http://localhost:8080/inquiries/1')
@@ -27,9 +19,7 @@ function App() {
       })
       .then(data => {
         setInquiry(data);
-
-        //jokaiselle kysymykselle initialisoidaan oma answertext olio jonka lähtöarvo on tyhjä String
-        setAnswers(data.questions.map(() => ({ answertext: "" })));
+        setAnswers(data.questions.map(question => ({ answertext: "", question: question })));
       })
       .catch(err => console.error(err));
   }
@@ -40,29 +30,32 @@ function App() {
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
-
-    //Muuttaa tietyllä indeksipaikalla olevan vastausolion arvoa, e.target.name nappaa kentän nimen ja e.target.value kenttään käyttäjän syöttämän arvon
     newAnswers[index] = { ...newAnswers[index], answertext: e.target.value };
     setAnswers(newAnswers);
   }
 
   const saveAnswer = (event) => {
     event.preventDefault();
-    console.log(answers);
+    
+    const answersWithQuestionId = answers.map(answer => ({
+      answertext: answer.answertext,
+      question: { questionid: answer.question.questionid }
+    }));
+
     fetch('http://localhost:8080/answers', {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify(answers)
+      body: JSON.stringify(answersWithQuestionId)
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Error when adding an answer: " + response.statusText);
-      }
-      console.log("Answer submitted successfully");
-    })
-    .catch(err => console.error(err));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Error when adding an answer: " + response.statusText);
+        }
+        console.log("Answer submitted successfully");
+      })
+      .catch(err => console.error(err));
   };
 
   return (
@@ -77,7 +70,7 @@ function App() {
               {inquiry.questions.map((question, index) =>
                 <tr key={question.questionid}>
                   <td>{question.questiontext}</td>
-                  <td><input type="text" name="answertext" data-index={index} value={answers[index].answertext} onChange={(e) => handleChange(e, index)} /></td>
+                  <td><input type="text" name="answertext" value={answers[index].answertext} onChange={(e) => handleChange(e, index)} /></td>
                 </tr>
               )}
             </tbody>
@@ -89,4 +82,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
