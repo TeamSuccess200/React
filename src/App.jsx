@@ -9,7 +9,7 @@ function App() {
   });
 
 
-  const [answer, setAnswer] = useState([]
+  const [answers, setAnswers] = useState([]
     // answer on taulukko olioita joiden tämänhetkinen ainoa attribuutti on answertext
     // HUOM, riittää että answertext on määritely fetchInquiry metodissa- tähän riittää siis pelkän tyhjän taulukon luonti
     /*     {
@@ -29,7 +29,7 @@ function App() {
         setInquiry(data);
 
         //jokaiselle kysymykselle initialisoidaan oma answertext olio jonka lähtöarvo on tyhjä String
-        setAnswer(data.questions.map(() => ({ answertext: "" })));
+        setAnswers(data.questions.map(() => ({ answertext: "" })));
       })
       .catch(err => console.error(err));
   }
@@ -39,20 +39,22 @@ function App() {
   }, []);
 
   const handleChange = (e, index) => {
-    const newAnswers = [...answer];
+    const newAnswers = [...answers];
 
     //Muuttaa tietyllä indeksipaikalla olevan vastausolion arvoa, e.target.name nappaa kentän nimen ja e.target.value kenttään käyttäjän syöttämän arvon
     newAnswers[index] = { ...newAnswers[index], answertext: e.target.value };
-    setAnswer(newAnswers);
+    setAnswers(newAnswers);
   }
 
-  const saveAnswer = () => {
-    fetch('http://localhost:8080/api/answers', {
+  const saveAnswer = (event) => {
+    event.preventDefault();
+    console.log(answers);
+    fetch('http://localhost:8080/answers', {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify(answer)
+      body: JSON.stringify(answers)
     })
     .then(response => {
       if (!response.ok) {
@@ -75,7 +77,7 @@ function App() {
               {inquiry.questions.map((question, index) =>
                 <tr key={question.questionid}>
                   <td>{question.questiontext}</td>
-                  <td><input type="text" name="answertext" data-index={index} value={answer[index].answertext} onChange={(e) => handleChange(e, index)} /></td>
+                  <td><input type="text" name="answertext" data-index={index} value={answers[index].answertext} onChange={(e) => handleChange(e, index)} /></td>
                 </tr>
               )}
             </tbody>
