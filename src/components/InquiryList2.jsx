@@ -41,7 +41,6 @@ function InquiryList2({ onInquiryClick }) {
             style={{marginBottom: '10px'}}
           >
             <button><h3>{inquiry.name}</h3></button>
-
           </div>
         ))}
       </div>
