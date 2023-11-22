@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import InquiryList from "./InquiryList";
 import Home from "./Home";
 import Answers from "./Answers";
 import InquiryList2 from "./InquiryList2";
