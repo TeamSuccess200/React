@@ -19,8 +19,6 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
       .then((data) => {
         setInquiry(data);
 
-        /* mappaa läpi backendin datasta kysymyslistan, ja luo listan vastausolioita joilla on 
-                attribuutit answertext ja question, jotka alustetaan alkuun tyhjiksi */
         setAnswers(
           data.questions.map((question) => ({
             answertext: "",
@@ -36,29 +34,19 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
   }, [inquiryId]);
 
   const handleChange = (e, index) => {
-    /* Luo kopion answers listasta, jotta ei suoraan muokata alkuperäistä statea */
     const newAnswers = [...answers];
-
-    /* Päivittää tietyllä newAnswers-listan indeksipaikalla olevan tyhjän vastausolion 
-        answertext-attribuutin käyttäjän syöttämäksi vastaukseksi */
     newAnswers[index] = { ...newAnswers[index], answertext: e.target.value };
     setAnswers(newAnswers);
   };
 
-  /* saveAnswer: kun käyttäjä klikkaa submit-painiketta */
   const saveAnswer = (event) => {
     event.preventDefault();
 
-    /* mapataan läpi vastaus-listan sisältö, jokaselle vastaus-listan sisältämälle oliolle
-        asetetaan answertext ja question-attribuuteille arvot
-        - answer.answertext (käyttäjän syöttämä vastaus)
-        - questionid: answer.question.questionid (kysymyksen id saadaan kysymysoliolta)  */
     const answersWithQuestionId = answers.map((answer) => ({
       answertext: answer.answertext,
       question: { questionid: answer.question.questionid },
     }));
 
-    /* backendille lähetetään vastaukset jotka sisältävät myös kysymysid:n */
     fetch("http://localhost:8080/answers", {
       method: "POST",
       headers: {
@@ -73,24 +61,16 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
           );
         }
         console.log("Answer submitted successfully");
-        /* Tyhejnnetään kaikki vastauskentät, jos lähetys backendille on onnistunut */
         setAnswers(
           answers.map((answer) => ({
             answertext: "",
             question: answer.question,
           }))
         );
-
-        /* vaihdetaan isSubmitted boolean true, jotta käyttäjälle voidaan renderöidä viesti
-                vastausten onnistuneesta tallennuksesta */
         setIsSubmitted(true);
       })
       .catch((err) => console.error(err));
   };
-
-  /* Mapataan jokainen kyselyn kysymys ja renderöidään joka kysymys omalla rivillään.
-    Jokaisella rivillä on oma yksilöllinen id (questionid).
-    Vastauskentän value on tietyllä indeksipaikalla olevan vastausolion answertext-attribuutti. */
 
   return (
     <>
@@ -105,15 +85,38 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
               </tr>
               {inquiry.questions.map((question, index) => (
                 <tr key={question.questionid}>
-                  <td>{question.questiontext}</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="answertext"
-                      value={answers[index].answertext}
-                      onChange={(e) => handleChange(e, index)}
-                    />
-                  </td>
+                  {question.questiontype === "text" && (
+                    <>
+                      <td>{question.questiontext}</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="answertext"
+                          value={answers[index].answertext}
+                          onChange={(e) => handleChange(e, index)}
+                        />
+                      </td>
+                    </>
+                  )}
+                  {question.questiontype === "radio" && (
+  <>
+                      <td>{question.questiontext}</td>
+                      <td>
+                        {question.questionoptions.split(', ').map((option, optionIndex) => (
+                          <div key={optionIndex}>
+                            <input
+                              type="radio"
+                              name={`radio_${index}`}
+                              value={option}
+                              checked={answers[index].answertext === option}
+                              onChange={(e) => handleChange(e, index)}
+                            />
+                            {option}
+                          </div>
+                        ))}
+                      </td>
+                    </>
+                  )}
                 </tr>
               ))}
             </tbody>

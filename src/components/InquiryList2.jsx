@@ -31,6 +31,7 @@ function InquiryList2({ onInquiryClick }) {
   return (
     <>
       <h1>Inquiries</h1>
+      <p>Choose the inquiry you want to open.</p>
 
       <div>
         {inquiries.map((inquiry) => (

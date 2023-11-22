@@ -24,9 +24,9 @@ function TabApp() {
     <div>
       <Tabs value={value} onChange={handleChange}>
         <Tab value="home" label="Home" />
-        <Tab value="answers" label="Answer report" />
         <Tab value="inquirylist2" label="Inquiry list" />
         <Tab value="specificinquiry" label="Specific inquiry" />
+        <Tab value="answers" label="Answer report" />
       </Tabs>
       {value === "home" && <Home />}
       {value === "answers" && <Answers />}
