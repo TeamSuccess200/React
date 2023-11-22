@@ -38,8 +38,9 @@ function InquiryList2({ onInquiryClick }) {
           <div
             key={inquiry.inquiryId}
             onClick={() => handleInquiryClick(inquiry.inquiryId)}
+            style={{marginBottom: '10px'}}
           >
-            <h3>{inquiry.name}</h3>
+            <button><h3>{inquiry.name}</h3></button>
           </div>
         ))}
       </div>
