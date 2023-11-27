@@ -37,10 +37,11 @@ function InquiryList2({ onInquiryClick }) {
         {inquiries.map((inquiry) => (
           <div
             key={inquiry.inquiryId}
-            onClick={() => handleInquiryClick(inquiry.inquiryId)}
             style={{marginBottom: '10px'}}
           >
-            <button><h3>{inquiry.name}</h3></button>
+            <button onClick={() => handleInquiryClick(inquiry.inquiryId)}>
+              <h3>{inquiry.name}</h3>
+            </button>
           </div>
         ))}
       </div>
