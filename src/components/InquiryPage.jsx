@@ -5,10 +5,12 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
     name: "",
     description: "",
     questions: [],
+    isrequired: null
   });
 
   const [answers, setAnswers] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRequired, setIsRequired] = useState(inquiry.isrequired);
 
   const fetchInquiry = () => {
     fetch(`http://localhost:8080/inquiries/${inquiryId}`)
@@ -32,6 +34,11 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
   useEffect(() => {
     fetchInquiry();
   }, [inquiryId]);
+  
+  useEffect(() => {
+    setIsRequired(inquiry.isrequired);
+  }, [inquiry]);
+  
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
@@ -94,6 +101,7 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
                           name="answertext"
                           value={answers[index].answertext}
                           onChange={(e) => handleChange(e, index)}
+                          required={question.isrequired}
                         />
                       </td>
                     </>
@@ -110,6 +118,7 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
                               value={option}
                               checked={answers[index].answertext === option}
                               onChange={(e) => handleChange(e, index)}
+                              required={question.isrequired}
                             />
                             {option}
                           </div>
