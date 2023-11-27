@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import InquiryList from "./InquiryList";
 import Home from "./Home";
 import Answers from "./Answers";
 import InquiryList2 from "./InquiryList2";
@@ -25,7 +24,7 @@ function TabApp() {
       <Tabs value={value} onChange={handleChange}>
         <Tab value="home" label="Home" />
         <Tab value="inquirylist2" label="Inquiry list" />
-        <Tab value="specificinquiry" label="Specific inquiry" />
+        <Tab disabled value="specificinquiry" label="Specific inquiry" />
         <Tab value="answers" label="Answer report" />
       </Tabs>
       {value === "home" && <Home />}
