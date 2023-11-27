@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function InquiryPage({ inquiryId, onInquiryClick }) {
+function InquiryPage({ inquiryId, onSubmit }) {
   const [inquiry, setInquiry] = useState({
     name: "",
     description: "",
@@ -68,6 +68,9 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
           }))
         );
         setIsSubmitted(true);
+        if (onSubmit) {
+          onSubmit();
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -99,21 +102,23 @@ function InquiryPage({ inquiryId, onInquiryClick }) {
                     </>
                   )}
                   {question.questiontype === "radio" && (
-  <>
+                    <>
                       <td>{question.questiontext}</td>
                       <td>
-                        {question.questionoptions.split(', ').map((option, optionIndex) => (
-                          <div key={optionIndex}>
-                            <input
-                              type="radio"
-                              name={`radio_${index}`}
-                              value={option}
-                              checked={answers[index].answertext === option}
-                              onChange={(e) => handleChange(e, index)}
-                            />
-                            {option}
-                          </div>
-                        ))}
+                        {question.questionoptions
+                          .split(", ")
+                          .map((option, optionIndex) => (
+                            <div key={optionIndex}>
+                              <input
+                                type="radio"
+                                name={`radio_${index}`}
+                                value={option}
+                                checked={answers[index].answertext === option}
+                                onChange={(e) => handleChange(e, index)}
+                              />
+                              {option}
+                            </div>
+                          ))}
                       </td>
                     </>
                   )}

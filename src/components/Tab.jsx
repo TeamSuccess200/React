@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import Home from "./Home";
 import Answers from "./Answers";
 import InquiryList2 from "./InquiryList2";
-import SpecificInquiry from "./InquiryPage";
+import InquiryPage from "./InquiryPage";
 
 function TabApp() {
   const [value, setValue] = useState("home");
@@ -17,6 +17,10 @@ function TabApp() {
   const handleInquiryClick = (inquiryId) => {
     setValue("specificinquiry");
     setSelectedInquiryId(inquiryId);
+  };
+
+  const handleInquiryPageSubmit = () => {
+    setValue("inquirylist2");
   };
 
   return (
@@ -33,7 +37,11 @@ function TabApp() {
         <InquiryList2 onInquiryClick={handleInquiryClick} />
       )}
       {value === "specificinquiry" && selectedInquiryId && (
-        <SpecificInquiry inquiryId={selectedInquiryId} />
+        <InquiryPage
+          inquiryId={selectedInquiryId}
+          onInquiryClick={handleInquiryClick}
+          onSubmit={handleInquiryPageSubmit}
+        />
       )}
     </div>
   );
