@@ -5,10 +5,12 @@ function InquiryPage({ inquiryId, onSubmit }) {
     name: "",
     description: "",
     questions: [],
+    isrequired: null
   });
 
   const [answers, setAnswers] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRequired, setIsRequired] = useState(inquiry.isrequired);
 
   const fetchInquiry = () => {
     fetch(`http://localhost:8080/inquiries/${inquiryId}`)
@@ -32,6 +34,11 @@ function InquiryPage({ inquiryId, onSubmit }) {
   useEffect(() => {
     fetchInquiry();
   }, [inquiryId]);
+  
+  useEffect(() => {
+    setIsRequired(inquiry.isrequired);
+  }, [inquiry]);
+  
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
@@ -97,6 +104,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                           name="answertext"
                           value={answers[index].answertext}
                           onChange={(e) => handleChange(e, index)}
+                          required={question.isrequired}
                         />
                       </td>
                     </>
@@ -105,6 +113,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                     <>
                       <td>{question.questiontext}</td>
                       <td>
+<<<<<<< HEAD
                         {question.questionoptions
                           .split(", ")
                           .map((option, optionIndex) => (
@@ -119,6 +128,21 @@ function InquiryPage({ inquiryId, onSubmit }) {
                               {option}
                             </div>
                           ))}
+=======
+                        {question.questionoptions.split(', ').map((option, optionIndex) => (
+                          <div key={optionIndex}>
+                            <input
+                              type="radio"
+                              name={`radio_${index}`}
+                              value={option}
+                              checked={answers[index].answertext === option}
+                              onChange={(e) => handleChange(e, index)}
+                              required={question.isrequired}
+                            />
+                            {option}
+                          </div>
+                        ))}
+>>>>>>> 9bcc6c24c8e3fb77ec99ca82abb1c84e7a40ca89
                       </td>
                     </>
                   )}
