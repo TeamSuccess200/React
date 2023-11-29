@@ -139,6 +139,31 @@ function InquiryPage({ inquiryId, onSubmit }) {
                         ))}
                     </td>
                   )}
+
+                  {/* työn alla */}
+                  {question.questiontype === "range" && (
+                    <>
+                      <td>{question.questiontext}</td>
+                      <td>
+                        {question.min}
+                        <input
+                          type="range"
+                          name="answertext"
+                          value={answers[index].answertext}
+                          onChange={(e) => handleChange(e, index)}
+                          required={question.isrequired}
+                          step="1"
+                          min={question.min}
+                          max={question.max}
+                        />
+                        {question.max}
+                      </td>
+                    </>
+                  )}
+
+
+
+
                 </tr>
               ))}
             </tbody>
