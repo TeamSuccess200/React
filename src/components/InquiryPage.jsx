@@ -5,7 +5,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
     name: "",
     description: "",
     questions: [],
-    isrequired: null
+    isrequired: null,
   });
 
   const [answers, setAnswers] = useState([]);
@@ -34,11 +34,10 @@ function InquiryPage({ inquiryId, onSubmit }) {
   useEffect(() => {
     fetchInquiry();
   }, [inquiryId]);
-  
+
   useEffect(() => {
     setIsRequired(inquiry.isrequired);
   }, [inquiry]);
-  
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
@@ -93,43 +92,37 @@ function InquiryPage({ inquiryId, onSubmit }) {
               <tr>
                 <th>Questions</th>
               </tr>
+              <br />
+              <tr>
+                <td style={{ color: "red" }}>
+                  (Questions with * are required)
+                </td>
+              </tr>
               {inquiry.questions.map((question, index) => (
                 <tr key={question.questionid}>
+                  <td>
+                    {question.isrequired && (
+                      <span style={{ color: "red" }}>*</span>
+                    )}
+                    {question.questiontext}
+                  </td>
                   {question.questiontype === "text" && (
-                    <>
-                      <td>{question.questiontext}</td>
-                      <td>
-                        <input
-                          type="text"
-                          name="answertext"
-                          value={answers[index].answertext}
-                          onChange={(e) => handleChange(e, index)}
-                          required={question.isrequired}
-                        />
-                      </td>
-                    </>
+                    <td>
+                      <input
+                        type="text"
+                        name="answertext"
+                        value={answers[index].answertext}
+                        onChange={(e) => handleChange(e, index)}
+                        required={question.isrequired}
+                      />
+                    </td>
                   )}
+
                   {question.questiontype === "radio" && (
-                    <>
-                      <td>{question.questiontext}</td>
-                      <td>
-<<<<<<< HEAD
-                        {question.questionoptions
-                          .split(", ")
-                          .map((option, optionIndex) => (
-                            <div key={optionIndex}>
-                              <input
-                                type="radio"
-                                name={`radio_${index}`}
-                                value={option}
-                                checked={answers[index].answertext === option}
-                                onChange={(e) => handleChange(e, index)}
-                              />
-                              {option}
-                            </div>
-                          ))}
-=======
-                        {question.questionoptions.split(', ').map((option, optionIndex) => (
+                    <td>
+                      {question.questionoptions
+                        .split(", ")
+                        .map((option, optionIndex) => (
                           <div key={optionIndex}>
                             <input
                               type="radio"
@@ -142,9 +135,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                             {option}
                           </div>
                         ))}
->>>>>>> 9bcc6c24c8e3fb77ec99ca82abb1c84e7a40ca89
-                      </td>
-                    </>
+                    </td>
                   )}
                 </tr>
               ))}
