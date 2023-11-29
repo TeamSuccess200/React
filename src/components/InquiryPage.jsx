@@ -1,3 +1,4 @@
+import { Margin } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 
 function InquiryPage({ inquiryId, onSubmit }) {
@@ -109,6 +110,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                   {question.questiontype === "text" && (
                     <td>
                       <input
+                        style={{ marginBottom: 10 }}
                         type="text"
                         name="answertext"
                         value={answers[index].answertext}
@@ -123,7 +125,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                       {question.questionoptions
                         .split(", ")
                         .map((option, optionIndex) => (
-                          <div key={optionIndex}>
+                          <div key={optionIndex} style={{ marginBottom: 10 }}>
                             <input
                               type="radio"
                               name={`radio_${index}`}
