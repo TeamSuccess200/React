@@ -34,11 +34,11 @@ function InquiryPage({ inquiryId, onSubmit }) {
   useEffect(() => {
     fetchInquiry();
   }, [inquiryId]);
-  
+
   useEffect(() => {
     setIsRequired(inquiry.isrequired);
   }, [inquiry]);
-  
+
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
@@ -113,22 +113,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
                     <>
                       <td>{question.questiontext}</td>
                       <td>
-<<<<<<< HEAD
-                        {question.questionoptions
-                          .split(", ")
-                          .map((option, optionIndex) => (
-                            <div key={optionIndex}>
-                              <input
-                                type="radio"
-                                name={`radio_${index}`}
-                                value={option}
-                                checked={answers[index].answertext === option}
-                                onChange={(e) => handleChange(e, index)}
-                              />
-                              {option}
-                            </div>
-                          ))}
-=======
                         {question.questionoptions.split(', ').map((option, optionIndex) => (
                           <div key={optionIndex}>
                             <input
@@ -142,10 +126,34 @@ function InquiryPage({ inquiryId, onSubmit }) {
                             {option}
                           </div>
                         ))}
->>>>>>> 9bcc6c24c8e3fb77ec99ca82abb1c84e7a40ca89
                       </td>
                     </>
                   )}
+
+                  {/* työn alla */}
+                  {question.questiontype === "range" && (
+                    <>
+                      <td>{question.questiontext}</td>
+                      <td>
+                        {question.min}
+                        <input
+                          type="range"
+                          name="answertext"
+                          value={answers[index].answertext}
+                          onChange={(e) => handleChange(e, index)}
+                          required={question.isrequired}
+                          step="1"
+                          min={question.min}
+                          max={question.max}
+                        />
+                        {question.max}
+                      </td>
+                    </>
+                  )}
+
+
+
+
                 </tr>
               ))}
             </tbody>
