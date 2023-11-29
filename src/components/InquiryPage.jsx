@@ -38,10 +38,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
   useEffect(() => {
     setIsRequired(inquiry.isrequired);
   }, [inquiry]);
-<<<<<<< HEAD
-
-=======
->>>>>>> 04f02ebecd5b5bd3e781b581cdca36bed2116352
 
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
@@ -123,17 +119,10 @@ function InquiryPage({ inquiryId, onSubmit }) {
                   )}
 
                   {question.questiontype === "radio" && (
-<<<<<<< HEAD
-                    <>
-                      <td>{question.questiontext}</td>
-                      <td>
-                        {question.questionoptions.split(', ').map((option, optionIndex) => (
-=======
                     <td>
                       {question.questionoptions
                         .split(", ")
                         .map((option, optionIndex) => (
->>>>>>> 04f02ebecd5b5bd3e781b581cdca36bed2116352
                           <div key={optionIndex}>
                             <input
                               type="radio"
@@ -146,12 +135,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
                             {option}
                           </div>
                         ))}
-<<<<<<< HEAD
-                      </td>
-                    </>
-=======
                     </td>
->>>>>>> 04f02ebecd5b5bd3e781b581cdca36bed2116352
                   )}
 
                   {/* työn alla */}
