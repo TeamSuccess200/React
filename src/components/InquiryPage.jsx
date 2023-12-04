@@ -93,7 +93,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
               <tr>
                 <th>Questions</th>
               </tr>
-              <br />
+
               <tr>
                 <td style={{ color: "red" }}>
                   (Questions with * are required)
@@ -140,7 +140,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
                     </td>
                   )}
 
-                  {/* työn alla */}
                   {question.questiontype === "range" && (
                     <>
                       <td>{question.questiontext}</td>
@@ -160,10 +159,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
                       </td>
                     </>
                   )}
-
-
-
-
                 </tr>
               ))}
             </tbody>
