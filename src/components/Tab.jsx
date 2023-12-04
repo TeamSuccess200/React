@@ -2,9 +2,9 @@ import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Home from "./Home";
-import Answers from "./Answers";
 import InquiryList2 from "./InquiryList2";
 import InquiryPage from "./InquiryPage";
+import ReportPage from "./ReportPage";
 
 function TabApp() {
   const [value, setValue] = useState("home");
@@ -19,6 +19,11 @@ function TabApp() {
     setSelectedInquiryId(inquiryId);
   };
 
+  const handleAnswerClick = (inquiryId) => {
+    setValue("specificreport");
+    setSelectedInquiryId(inquiryId);
+  };
+
   const handleInquiryPageSubmit = () => {
     setValue("inquirylist2");
   };
@@ -29,18 +34,27 @@ function TabApp() {
         <Tab value="home" label="Home" />
         <Tab value="inquirylist2" label="Inquiry list" />
         <Tab disabled value="specificinquiry" label="Specific inquiry" />
-        <Tab value="answers" label="Answer report" />
+        <Tab disabled value="specificreport" label="Specific report" />
       </Tabs>
       {value === "home" && <Home />}
-      {value === "answers" && <Answers />}
       {value === "inquirylist2" && (
-        <InquiryList2 onInquiryClick={handleInquiryClick} />
+        <InquiryList2
+          onInquiryClick={handleInquiryClick}
+          onAnswerClick={handleAnswerClick}
+        />
       )}
+
       {value === "specificinquiry" && selectedInquiryId && (
         <InquiryPage
           inquiryId={selectedInquiryId}
           onInquiryClick={handleInquiryClick}
           onSubmit={handleInquiryPageSubmit}
+        />
+      )}
+      {value === "specificreport" && selectedInquiryId && (
+        <ReportPage
+          inquiryId={selectedInquiryId}
+          onAnswerClick={handleAnswerClick}
         />
       )}
     </div>

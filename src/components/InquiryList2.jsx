@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import InquiryPage from "./InquiryPage";
+import ReportPage from "./ReportPage";
 
-function InquiryList2({ onInquiryClick }) {
+function InquiryList2({ onInquiryClick, onAnswerClick }) {
   const [inquiries, setInquiries] = useState([]);
   const [selectedInquiryId, setSelectedInquiryId] = useState(null);
 
@@ -24,6 +25,11 @@ function InquiryList2({ onInquiryClick }) {
     setSelectedInquiryId(inquiryId);
   };
 
+  const handleAnswerClick = (inquiryId) => {
+    onAnswerClick(inquiryId);
+    setSelectedInquiryId(inquiryId);
+  };
+
   useEffect(() => {
     fetchInquiries();
   }, []);
@@ -35,12 +41,12 @@ function InquiryList2({ onInquiryClick }) {
 
       <div>
         {inquiries.map((inquiry) => (
-          <div
-            key={inquiry.inquiryId}
-            style={{marginBottom: '10px'}}
-          >
+          <div key={inquiry.inquiryId} style={{ marginBottom: "10px" }}>
             <button onClick={() => handleInquiryClick(inquiry.inquiryId)}>
               <h3>{inquiry.name}</h3>
+            </button>
+            <button onClick={() => handleAnswerClick(inquiry.inquiryId)}>
+              <h3>Show answers</h3>
             </button>
           </div>
         ))}
@@ -53,6 +59,18 @@ function InquiryList2({ onInquiryClick }) {
             <InquiryPage
               inquiryId={selectedInquiryId}
               onInquiryClick={onInquiryClick}
+            />
+          </Tab>
+        </Tabs>
+      )}
+
+      {selectedInquiryId && (
+        <Tabs value={"specificreport"}>
+          <Tab label="Specific Report" value="specificreport">
+            {/* Pass onInquiryClick prop to InquiryPage to handle navigation back to the list */}
+            <ReportPage
+              inquiryId={selectedInquiryId}
+              onAnswerClick={onAnswerClick}
             />
           </Tab>
         </Tabs>
