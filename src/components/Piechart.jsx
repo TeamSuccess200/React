@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 function PieChartComponent({ inquiryProps, questionid }) {
 
-    const [answers, setAnswers] = useState({});
+    const [answers, setAnswers] = useState([]);
     const inquiryId = inquiryProps;
 
     /* Hakee vastaukset ja antaa niille arvon, kuinka monta kertaa vastaus esiintyy */
@@ -87,13 +87,14 @@ function PieChartComponent({ inquiryProps, questionid }) {
                         cy="50%"
                         labelLine={true}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="#295332"
                         dataKey="value"
                         // label={(answers) => { return (answers.name) }}
                         label={({ name, value }) => `${name}: ${value}`}
                     >
 
-                        {answers.map((entry, index) => (
+
+                        {answers && answers.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
 
