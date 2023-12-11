@@ -11,8 +11,9 @@ export default defineConfig({
     },
   },
 
-}
-
-
-
-)
+  resolve: {
+    alias: {
+      'recharts': 'recharts',
+    },
+  },
+})
