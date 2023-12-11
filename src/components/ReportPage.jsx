@@ -30,11 +30,12 @@ function ReportPage({ inquiryId }) {
       <h4>{inquiry.description}</h4>
 
       <ul>
+
+
         {inquiry.questions &&
           inquiry.questions.map((question) => (
             <li key={question.questionid}>
               <p>{question.questiontext}</p>
-
 
               {isRadioQuestion(question) ? (
                 <PieChartComponent
@@ -43,19 +44,36 @@ function ReportPage({ inquiryId }) {
                 />
               ) : (
                 <>
-                  <ul>
-                    {question.answers &&
-                      question.answers.map((answer) => (
-                        <li key={answer.answerId}>
+                  {question.questiontype === "text" ? (
+                    <ul>
+                      {question.answers &&
+                        question.answers.map((answer) => (
+                          <li key={answer.answerId}>
+                            <p>{answer.answertext}</p>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : null}
 
-                          <p>{answer.answertext}</p>
-                        </li>
-                      ))}
-                  </ul>
+                  {question.questiontype === "range" ? (
+                    <ul>
+                      {question.answers &&
+                        question.answers.map((answer) => (
+                          <li key={answer.answerId}>
+                            <p>{answer.rangeAnswer}</p>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : null}
                 </>
               )}
             </li>
           ))}
+
+
+
+
+
       </ul>
     </>
   );
