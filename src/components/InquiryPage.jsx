@@ -27,6 +27,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
           data.questions.map((question) => ({
             answertext: "",
             question: question,
+            rangeAnswer: 1,
           }))
         );
       })
@@ -47,11 +48,23 @@ function InquiryPage({ inquiryId, onSubmit }) {
     setAnswers(newAnswers);
   };
 
+  const handleChangeRange = (e, index) => {
+    const newAnswers = [...answers];
+    newAnswers[index] = {
+      ...newAnswers[index],
+      rangeAnswer: e.target.value ? parseInt(e.target.value, 10) : null,
+    };
+    setAnswers(newAnswers);
+  };
+
+
+
   const saveAnswer = (event) => {
     event.preventDefault();
 
     const answersWithQuestionId = answers.map((answer) => ({
       answertext: answer.answertext,
+      rangeAnswer: answer.rangeAnswer,
       question: { questionid: answer.question.questionid },
     }));
 
@@ -152,9 +165,9 @@ function InquiryPage({ inquiryId, onSubmit }) {
                         {question.min}
                         <input
                           type="range"
-                          name="answertext"
-                          value={answers[index].answertext}
-                          onChange={(e) => handleChange(e, index)}
+                          name="rangeAnswer"
+                          value={answers[index].rangeAnswer}
+                          onChange={(e) => handleChangeRange(e, index)}
                           required={question.isrequired}
                           step="1"
                           min={question.min}
