@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import InquiryPage from "./InquiryPage";
 import ReportPage from "./ReportPage";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function InquiryList2({ onInquiryClick, onAnswerClick }) {
   const [inquiries, setInquiries] = useState([]);
@@ -35,27 +36,34 @@ function InquiryList2({ onInquiryClick, onAnswerClick }) {
   }, []);
 
   return (
-    <>
+    <div className="container mt-5" style={{ marginLeft: "10px" }}>
       <h1>Inquiries</h1>
       <p>Choose the inquiry you want to open.</p>
 
-      <div>
-        {inquiries.map((inquiry) => (
-          <div key={inquiry.inquiryId} style={{ marginBottom: "10px" }}>
-            <button onClick={() => handleInquiryClick(inquiry.inquiryId)}>
-              <h3>{inquiry.name}</h3>
-            </button>
-            <button onClick={() => handleAnswerClick(inquiry.inquiryId)}>
-              <h3>Show answers</h3>
-            </button>
+      {inquiries.map((inquiry) => (
+        <div key={inquiry.inquiryId} className="mb-3">
+          <div className="card">
+            <div className="card-body text-start">
+              <button
+                className="btn btn-primary"
+                onClick={() => handleInquiryClick(inquiry.inquiryId)}
+              >
+                <h3>{inquiry.name}</h3>
+              </button>
+              <button
+                className="btn btn-secondary ms-2"
+                onClick={() => handleAnswerClick(inquiry.inquiryId)}
+              >
+                <h3>Show answers</h3>
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
       {selectedInquiryId && (
-        <Tabs value={"specificinquiry"}>
+        <Tabs value={"specificinquiry"} className="mt-3">
           <Tab label="Specific Inquiry" value="specificinquiry">
-            {/* Pass onInquiryClick prop to InquiryPage to handle navigation back to the list */}
             <InquiryPage
               inquiryId={selectedInquiryId}
               onInquiryClick={onInquiryClick}
@@ -65,9 +73,8 @@ function InquiryList2({ onInquiryClick, onAnswerClick }) {
       )}
 
       {selectedInquiryId && (
-        <Tabs value={"specificreport"}>
+        <Tabs value={"specificreport"} className="mt-3">
           <Tab label="Specific Report" value="specificreport">
-            {/* Pass onInquiryClick prop to InquiryPage to handle navigation back to the list */}
             <ReportPage
               inquiryId={selectedInquiryId}
               onAnswerClick={onAnswerClick}
@@ -75,7 +82,7 @@ function InquiryList2({ onInquiryClick, onAnswerClick }) {
           </Tab>
         </Tabs>
       )}
-    </>
+    </div>
   );
 }
 

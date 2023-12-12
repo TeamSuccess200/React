@@ -57,8 +57,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
     setAnswers(newAnswers);
   };
 
-
-
   const saveAnswer = (event) => {
     event.preventDefault();
 
@@ -98,7 +96,10 @@ function InquiryPage({ inquiryId, onSubmit }) {
 
   return (
     <>
-      <div className="container mt-5">
+      <div
+        className="container mt-5"
+        style={{ marginLeft: "20px", marginBottom: "20px" }}
+      >
         <h2 className="display-4">{inquiry.name}</h2>
         <h5 className="display-7">{inquiry.description}</h5>
         <form onSubmit={saveAnswer}>

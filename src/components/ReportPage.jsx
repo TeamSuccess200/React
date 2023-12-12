@@ -24,18 +24,16 @@ function ReportPage({ inquiryId }) {
   const isRadioQuestion = (question) => question.questiontype === "radio";
 
   return (
-    <>
-      <h1>Specific answers</h1>
-      <h3>{inquiry.name}</h3>
-      <h4>{inquiry.description}</h4>
+    <div className="container mt-5" style={{ marginLeft: "20px" }}>
+      <h1 className="mb-4">Specific report</h1>
+      <h4 className="display-6">{inquiry.name}</h4>
+      <h5 className="display-7">{inquiry.description}</h5>
 
-      <ul>
-
-
+      <ul className="list-group">
         {inquiry.questions &&
           inquiry.questions.map((question) => (
-            <li key={question.questionid}>
-              <p>{question.questiontext}</p>
+            <li key={question.questionid} className="list-group-item mb-3">
+              <h5>{question.questiontext}</h5>
 
               {isRadioQuestion(question) ? (
                 <PieChartComponent
@@ -45,10 +43,10 @@ function ReportPage({ inquiryId }) {
               ) : (
                 <>
                   {question.questiontype === "text" ? (
-                    <ul>
+                    <ul className="list-group">
                       {question.answers &&
                         question.answers.map((answer) => (
-                          <li key={answer.answerId}>
+                          <li key={answer.answerId} className="list-group-item">
                             <p>{answer.answertext}</p>
                           </li>
                         ))}
@@ -56,10 +54,10 @@ function ReportPage({ inquiryId }) {
                   ) : null}
 
                   {question.questiontype === "range" ? (
-                    <ul>
+                    <ul className="list-group">
                       {question.answers &&
                         question.answers.map((answer) => (
-                          <li key={answer.answerId}>
+                          <li key={answer.answerId} className="list-group-item">
                             <p>{answer.rangeAnswer}</p>
                           </li>
                         ))}
@@ -69,13 +67,8 @@ function ReportPage({ inquiryId }) {
               )}
             </li>
           ))}
-
-
-
-
-
       </ul>
-    </>
+    </div>
   );
 }
 
