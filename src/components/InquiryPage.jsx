@@ -160,7 +160,6 @@ function InquiryPage({ inquiryId, onSubmit }) {
 
                   {question.questiontype === "range" && (
                     <>
-                      <td>{question.questiontext}</td>
                       <td>
                         {question.min}
                         <input
