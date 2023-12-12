@@ -21,6 +21,8 @@ function InquiryList2({ onInquiryClick, onAnswerClick }) {
       .catch((err) => console.error(err));
   };
 
+  //handleInquiryClick updates the value state in TabApp to "specificinquiry"
+  //and sets the selectedInquiryId state
   const handleInquiryClick = (inquiryId) => {
     onInquiryClick(inquiryId);
     setSelectedInquiryId(inquiryId);
@@ -44,6 +46,7 @@ function InquiryList2({ onInquiryClick, onAnswerClick }) {
         <div key={inquiry.inquiryId} className="mb-3">
           <div className="card">
             <div className="card-body text-start">
+              {/*clicking inquiry calls "handleInquiryClick" */}
               <button
                 className="btn btn-primary"
                 onClick={() => handleInquiryClick(inquiry.inquiryId)}
