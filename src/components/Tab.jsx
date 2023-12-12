@@ -14,8 +14,11 @@ function TabApp() {
     setValue(value);
   };
 
+  // Function to handle clicking an inquiry
   const handleInquiryClick = (inquiryId) => {
+    // Change the active tab to "specificinquiry"
     setValue("specificinquiry");
+    // Set the selected inquiry ID
     setSelectedInquiryId(inquiryId);
   };
 
@@ -24,7 +27,9 @@ function TabApp() {
     setSelectedInquiryId(inquiryId);
   };
 
+  // Function to handle form submission on InquiryPage
   const handleInquiryPageSubmit = () => {
+    // Change the active tab back to "inquirylist2"
     setValue("inquirylist2");
   };
 
@@ -43,7 +48,7 @@ function TabApp() {
           onAnswerClick={handleAnswerClick}
         />
       )}
-
+      {/* Conditional rendering for specific inquiry */}
       {value === "specificinquiry" && selectedInquiryId && (
         <InquiryPage
           inquiryId={selectedInquiryId}

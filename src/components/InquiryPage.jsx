@@ -13,6 +13,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isRequired, setIsRequired] = useState(inquiry.isrequired);
 
+  //function to fetch details of selected inquiry
   const fetchInquiry = () => {
     fetch(`http://localhost:8080/inquiries/${inquiryId}`)
       .then((response) => {
@@ -85,6 +86,7 @@ function InquiryPage({ inquiryId, onSubmit }) {
             question: answer.question,
           }))
         );
+        //after submitting answers, saveAnswer updates "isSubmitted" to true
         setIsSubmitted(true);
         if (onSubmit) {
           onSubmit();
