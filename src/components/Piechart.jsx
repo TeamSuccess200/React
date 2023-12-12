@@ -6,7 +6,6 @@ function PieChartComponent({ inquiryProps, questionid }) {
     const [answers, setAnswers] = useState([]);
     const inquiryId = inquiryProps;
 
-    /* Hakee vastaukset ja antaa niille arvon, kuinka monta kertaa vastaus esiintyy */
     const fetchAnswers = async () => {
         try {
             const response = await fetch(`http://localhost:8080/inquiries/${inquiryId}`);
@@ -14,51 +13,37 @@ function PieChartComponent({ inquiryProps, questionid }) {
                 throw new Error("Error in fetch: " + response.statusText);
             }
             const data = await response.json();
-
             const surveyData = data;
-
-            // Create an object to store the counts
             const answerCounts = {};
 
-            // Iterate through questions in the survey
+            //Lasketaan vastausten määrä kysymyksittäin
             surveyData.questions.forEach(question => {
                 const questionId = question.questionid;
 
-                // Check if the question has answers
+                //tarkistetaan, onko kysymyksellä vastaus
                 if (question.answers && question.answers.length > 0) {
-                    // Iterate through answers for the question
                     question.answers.forEach(answer => {
                         const answerText = answer.answertext;
 
-                        // If the answerText is not already in the counts object, initialize it to 1
-                        // Otherwise, increment the count
-                        answerCounts[questionId] = answerCounts[questionId] || {};
-                        answerCounts[questionId][answerText] = (answerCounts[questionId][answerText] || 0) + 1;
+                        //Lasketaan vastausten esiintymismäärä questionId:n perusteella
+                        answerCounts[questionId] = answerCounts[questionId] || {}; //tarkistaa, onko kyseisellä questionilla jo laskuri, jos ei, alustetaan se tyhjällä objektilla
+                        answerCounts[questionId][answerText] = (answerCounts[questionId][answerText] || 0) + 1; // tallentaa vastausten määrän; jos vastausta ei ole vielä olemassa, alusta se nollaksi, ja sitten lisää yksi
                     });
                 }
             });
-            // convert
 
-            // const answerCounts = answers.questionid;
-            // Convert answerCounts to the desired format
-            // Specify the questionId you want to transform
             const targetQuestionId = questionid;
             let transformedData = null;
-            // Check if the specified questionId exists in answerCounts
+
+            //muunnetaan data muotoon jonka piechart komponentti hyväksyy
             if (answerCounts[targetQuestionId]) {
-                // Transform the counts into the desired format
                 transformedData = Object.entries(answerCounts[targetQuestionId]).map(([name, value]) => ({
                     name,
                     value,
                 }));
-
-                // Output the result
-                // console.log(transformedData);
             } else {
                 console.log(`Question with ID ${targetQuestionId} not found.`);
             }
-
-
             setAnswers(transformedData);
         } catch (err) {
             console.error(err);
@@ -69,13 +54,7 @@ function PieChartComponent({ inquiryProps, questionid }) {
         fetchAnswers();
     }, [inquiryId]);
 
-
-    // console.log(answers);
-    //console.log(countAnswers());
-
-
     const COLORS = ['#8F2D2D', '#8F5F2D', '#558F2D', '#2D8F80', '#2D6C8F', '#2D388F', '#5C2D8F', '#8F2D7E', '#8F2D48', '#4A0606'];
-
 
     return (
         <>
@@ -89,15 +68,12 @@ function PieChartComponent({ inquiryProps, questionid }) {
                         outerRadius={80}
                         fill="#295332"
                         dataKey="value"
-                        // label={(answers) => { return (answers.name) }}
                         label={({ name, value }) => `${name}: ${value}`}
                     >
-
 
                         {answers && answers.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
-
                     </Pie>
                 </PieChart>
             </ResponsiveContainer>
