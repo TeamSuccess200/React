@@ -1,5 +1,6 @@
 import { Margin } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function InquiryPage({ inquiryId, onSubmit }) {
   const [inquiry, setInquiry] = useState({
@@ -84,17 +85,17 @@ function InquiryPage({ inquiryId, onSubmit }) {
 
   return (
     <>
-      <div>
-        <h2>{inquiry.name}</h2>
-        <h3>{inquiry.description}</h3>
+      <div className="container mt-5">
+        <h2 className="display-4">{inquiry.name}</h2>
+        <h5 className="display-7">{inquiry.description}</h5>
         <form onSubmit={saveAnswer}>
-          <table>
+          <table className="table">
             <tbody>
-              <tr>
+              <tr className="border-bottom">
                 <th>Questions</th>
               </tr>
 
-              <tr>
+              <tr className="border-bottom">
                 <td style={{ color: "red" }}>
                   (Questions with * are required)
                 </td>
@@ -125,16 +126,20 @@ function InquiryPage({ inquiryId, onSubmit }) {
                       {question.questionoptions
                         .split(", ")
                         .map((option, optionIndex) => (
-                          <div key={optionIndex} style={{ marginBottom: 10 }}>
+                          <div key={optionIndex}>
                             <input
                               type="radio"
+                              className="form-check-input"
                               name={`radio_${index}`}
+                              style={{ border: "1px solid black" }}
                               value={option}
                               checked={answers[index].answertext === option}
                               onChange={(e) => handleChange(e, index)}
                               required={question.isrequired}
                             />
-                            {option}
+                            <label className="form-check-label ms-2">
+                              {option}
+                            </label>
                           </div>
                         ))}
                     </td>
@@ -163,9 +168,15 @@ function InquiryPage({ inquiryId, onSubmit }) {
               ))}
             </tbody>
           </table>
-          <input type="submit" value="Submit" />
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </form>
-        {isSubmitted && <p>Answers submitted successfully!</p>}
+        {isSubmitted && (
+          <p className="mt-3 alert alert-success">
+            Answers submitted successfully!
+          </p>
+        )}
       </div>
     </>
   );
